@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class AirState : State
 {
+    public AnimationClip anim;
     public override void Enter() 
     {
-        animator.Play("Jump");
+        animator.Play(anim.name);
     }
     public override void Do() 
     {

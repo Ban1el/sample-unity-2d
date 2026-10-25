@@ -43,10 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (state.isComplete)
-        {
-            SelectState();
-        }
+        SelectState();
 
         currentStateText.text = $"State: {state.GetType().Name}";
 
@@ -62,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void SelectState()
     {
+        State oldState = state;
+
         if (grounded)
         {
             if (xInput == 0)
@@ -78,7 +77,12 @@ public class PlayerMovement : MonoBehaviour
             state = airState;
         }
 
-        state.Enter();
+        if(oldState != state || oldState.isComplete)
+        {
+            oldState.Exit();
+            state.Initialise();
+            state.Enter();
+        }
     }
 
     public void HandleJumpInput() 

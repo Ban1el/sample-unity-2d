@@ -4,10 +4,11 @@ using UnityEngine.Windows;
 
 public class RunState : State
 {
+    public AnimationClip anim;
     public float maxXSpeed;
     public override void Enter()
     {
-        animator.Play("Run");
+        animator.Play(anim.name);
     }
 
     public override void Do()

@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class IdleState : State
 {
+    public AnimationClip anim;
     public override void Enter()
     {
-        animator.Play("Idle");
+        animator.Play(anim.name);
     }
 
     public override void Do()

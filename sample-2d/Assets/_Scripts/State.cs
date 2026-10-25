@@ -23,4 +23,10 @@ public abstract class State : MonoBehaviour
         animator = _animator;
         input = _playerMovement;
     }
+
+    public void Initialise()
+    {
+        isComplete = false;
+        startTime = Time.time;
+    }
 }

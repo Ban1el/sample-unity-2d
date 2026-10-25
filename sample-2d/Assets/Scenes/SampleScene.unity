@@ -706,6 +706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61f4bcf92e4fc1f48b43398368d4d13f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AirState
+  anim: {fileID: 5539831331247536789, guid: 1dff206393054984f8c56316cfb02ab3, type: 3}
 --- !u!1 &809935381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,7 +1115,7 @@ MonoBehaviour:
   jumpSpeed: 5
   acceleration: 2
   maxXSpeed: 7
-  friction: 10
+  friction: 20
   currentStateText: {fileID: 809935383}
 --- !u!1 &1232482049
 GameObject:
@@ -1942,6 +1943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af9360274d4d6f41ba556a68ceac2fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunState
+  anim: {fileID: 5522812681064789136, guid: 1dff206393054984f8c56316cfb02ab3, type: 3}
   maxXSpeed: 2
 --- !u!1 &1988393265
 GameObject:
@@ -1987,6 +1989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac0fe929ea6a540afb903cd653176c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleState
+  anim: {fileID: -3100369314251171874, guid: 1dff206393054984f8c56316cfb02ab3, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
