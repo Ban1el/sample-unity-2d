@@ -1,31 +1,47 @@
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public abstract class State : MonoBehaviour
 {
+    protected Core core;
     public bool isComplete { get; protected set; }
     protected float startTime;
     public float time => Time.time - startTime;
-
-    protected Rigidbody2D body;
-    protected Animator animator;
     protected float maxSpeed;
-    protected PlayerMovement input;
-
+    protected Animator animator => core.animator;
+    protected Rigidbody2D body => core.body;
     public virtual void Enter() { }
     public virtual void Do() { }
     public virtual void FixedDo() { }
     public virtual void Exit() { }
-
-    public void Setup(Rigidbody2D _body, Animator _animator, PlayerMovement _playerMovement)
+    public void DoBranch()
     {
-        body = _body;
-        animator = _animator;
-        input = _playerMovement;
+        Do();
+        state?.DoBranch();
     }
 
-    public void Initialise()
+    public void FixedDoBranch()
     {
+        FixedDo();
+        state?.FixedDoBranch();
+    }
+    public StateMachine machine;
+    public StateMachine parent;
+    public State state => machine.state;
+
+    protected void Set(State newState, bool forceReset = false)
+    {
+        machine.Set(newState, forceReset);
+    }
+
+    public void SetCore(Core _core)
+    {
+        machine = new StateMachine();
+        core = _core;
+    }
+
+    public void Initialise(StateMachine _parent)
+    {
+        parent = _parent;
         isComplete = false;
         startTime = Time.time;
     }

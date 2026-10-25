@@ -24,7 +24,7 @@ public class RunState : State
               true            // Clamp the result
         );
 
-        if (!input.grounded || Mathf.Abs(velX) < 0.1f)
+        if (!core.groundSensor.grounded || Mathf.Abs(velX) < 0.1f)
         {
             isComplete = true;
         }

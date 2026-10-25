@@ -10,7 +10,7 @@ public class IdleState : State
 
     public override void Do()
     {
-        if(!input.grounded || Mathf.Abs(input.xInput) !> 0)
+        if(!core.groundSensor.grounded)
         {
             isComplete = true;
         }

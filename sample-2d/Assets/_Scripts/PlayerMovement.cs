@@ -2,30 +2,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Core
 {
     public IdleState idleState;
     public RunState runState;
     public AirState airState;
-    State state;
-    protected Animator animator;
-    protected Rigidbody2D body;
-
-    [SerializeField]
-    private Transform groundCheck;
-    [SerializeField]
-    private float groundCheckRadius;
-    [SerializeField]
-    private LayerMask groundLayer;
     public float jumpSpeed;
-
-    public bool grounded { get; private set; }
     public float xInput { get; private set; }
     public float yInput { get; private set; }
     public float acceleration;
     public float maxXSpeed;
     public float friction;
-    public TextMeshProUGUI currentStateText;
 
     private void Awake()
     {
@@ -35,59 +22,44 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        idleState.Setup(body, animator, this);
-        runState.Setup(body, animator, this);
-        airState.Setup(body, animator, this);
-        state = idleState;
+        SetupInstances();
+        machine.Set(idleState);
     }
 
     private void Update()
     {
         SelectState();
-
-        currentStateText.text = $"State: {state.GetType().Name}";
-
-        state.Do();
+        machine.state.Do();
     }
 
     private void FixedUpdate()
     {
-        CheckGround();
         HandleMovementX();
         ApplyFriction();
     }
 
     private void SelectState()
     {
-        State oldState = state;
-
-        if (grounded)
+        if (groundSensor.grounded)
         {
             if (xInput == 0)
             {
-                state = idleState;
+                machine.Set(idleState);
             }
             else if (Mathf.Abs(xInput) > 0)
             {
-                state = runState;
+                machine.Set(runState);
             }
         }
         else
         {
-            state = airState;
-        }
-
-        if(oldState != state || oldState.isComplete)
-        {
-            oldState.Exit();
-            state.Initialise();
-            state.Enter();
+            machine.Set(airState);
         }
     }
 
     public void HandleJumpInput() 
     {
-        if (grounded)
+        if (groundSensor.grounded)
         {
             body.linearVelocity = new Vector2(body.linearVelocityX, jumpSpeed);
         }
@@ -118,16 +90,7 @@ public class PlayerMovement : MonoBehaviour
         );
     }
 
-    private void CheckGround()
-    {
-        Collider2D hit = Physics2D.OverlapCircle(
-            groundCheck.position,
-            groundCheckRadius,
-            groundLayer
-        );
-
-        grounded = hit != null ? true : false;
-    }
+  
 
     // Study later
     private void ApplyFriction()
@@ -147,9 +110,11 @@ public class PlayerMovement : MonoBehaviour
         xInput = context.ReadValue<float>();
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-    }
+//    private void OnDrawGizmos()
+//    {
+//#if UNITY_EDITOR
+//        Gizmos.color = Color.red;
+//        Gizmos.DrawWireSphere(groundSensor.groundCheck.position, groundSensor.groundCheckRadius);
+//#endif
+//    }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 public class AirState : State
 {
     public AnimationClip anim;
+    public PlayerMovement input;
     public override void Enter() 
     {
         animator.Play(anim.name);
@@ -13,7 +14,7 @@ public class AirState : State
         animator.Play("Jump", 0, time);
         animator.speed = 0;
 
-        if (input.grounded)
+        if (core.groundSensor.grounded)
         {
             isComplete = true;
         }
